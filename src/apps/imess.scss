@@ -1,0 +1,79 @@
+.item-form-modal-gms {
+  margin: 10px 0px;
+}
+.ant-table-cell .ant-table-column-title {
+  font-weight: 800;
+  font-size: 16px;
+}
+.error-count {
+  color: #ff0000;
+}
+.sms-success {
+  color: #7fff00;
+}
+.sms-error {
+  color: #ff9800f5;
+}
+.title {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.small {
+  width: 30px;
+}
+.x-small {
+  width: 50px;
+}
+.xx-small {
+  width: 80px;
+}
+.medium {
+  width: 100px;
+}
+.x-medium {
+  width: 120px;
+}
+.xx-medium {
+  width: 140px;
+}
+.large {
+  width: 160px;
+}
+.x-large {
+  width: 180px;
+}
+.xx-large {
+  width: 200px;
+}
+.mxx-large {
+  width: 360px;
+}
+.xxx-large {
+  width: 500px;
+}
+.item-table {
+  text-align: center;
+  font-weight: 800;
+}
+.stt {
+  display: flex;
+  justify-content: center;
+}
+.ellipsis {
+  display: -webkit-box;
+  line-height: 18px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.content {
+  width: 360px;
+  text-align: start;
+}
+.action {
+  width: 360px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}

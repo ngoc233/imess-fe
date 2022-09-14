@@ -1,0 +1,17 @@
+.dropdown-navbar {
+    button {
+      background: transparent;
+      color: black;
+      border: none;
+      margin-left: 10px;
+  
+      &:hover {
+        background: #f5f5f5;
+        color: black;
+      }
+      &:focus {
+        background: #f5f5f5 !important;
+        color: black !important;
+      }
+    }
+  }
