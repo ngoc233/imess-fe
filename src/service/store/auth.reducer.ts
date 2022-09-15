@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { axiosInstance } from "../apis/axios";
+import { getAPI, postAPI } from "../apis/axios";
 import { toast } from "react-toastify";
 import history from "../../utils/history";
 
 export const authLoginApi = createAsyncThunk("login", async (body: { email: string; password: string }) => {
   try {
-    const res = await axiosInstance.post(`/auth/login`, body);
+    const res = await postAPI(`/auth/login`, body);
     return res.data.data;
   } catch (err) {
     throw err;
@@ -14,7 +14,7 @@ export const authLoginApi = createAsyncThunk("login", async (body: { email: stri
 
 export const restore = createAsyncThunk("restore", async () => {
   try {
-    const res = await axiosInstance.get(`/user/me`);
+    const res = await getAPI(`/user/me`);
     return res.data.data;
   } catch (err) {
     throw err;

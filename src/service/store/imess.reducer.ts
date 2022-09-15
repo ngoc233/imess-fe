@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { axiosInstance } from "../apis/axios";
+import { postAPI } from "../apis/axios";
 import { toast } from "react-toastify";
 
 export interface ImessUploadDataDto {
@@ -10,7 +10,7 @@ export const imessUploadData = createAsyncThunk(
   "imess-upload-data",
   async (body: { filename: string; data: ImessUploadDataDto[] }) => {
     try {
-      const res = await axiosInstance.post(`/send-imess/upload-data`, body);
+      const res = await postAPI(`/send-imess/upload-data`, body);
       return res;
     } catch (err) {
       throw err;
