@@ -6,7 +6,7 @@ import history from "../../utils/history";
 export const authLoginApi = createAsyncThunk("login", async (body: { email: string; password: string }) => {
   try {
     const res = await postAPI(`/auth/login`, body);
-    return res.data.data;
+    return res.data;
   } catch (err) {
     throw err;
   }
@@ -15,7 +15,7 @@ export const authLoginApi = createAsyncThunk("login", async (body: { email: stri
 export const restore = createAsyncThunk("restore", async () => {
   try {
     const res = await getAPI(`/user/me`);
-    return res.data.data;
+    return res.data;
   } catch (err) {
     throw err;
   }

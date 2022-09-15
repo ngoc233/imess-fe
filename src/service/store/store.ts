@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import authReducer from "./auth.reducer";
+import deviceReducer from "./device.reducer";
 import imessReducer from "./imess.reducer";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     imess: imessReducer,
+    device: deviceReducer,
   },
 });
 

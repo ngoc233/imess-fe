@@ -5,6 +5,7 @@ import Home from "../apps/home";
 import Imess from "../apps/imess";
 import Device from "../apps/device";
 import { routerPaths } from "../utils/constanst";
+import CreateDevicePage from "../apps/createDevice";
 
 export interface RouteValue {
   path: string;
@@ -20,6 +21,7 @@ const routers: RouteValue[] = [
       { path: routerPaths.home, component: Home },
       { path: routerPaths.imess, component: Imess },
       { path: routerPaths.device, component: Device },
+      { path: routerPaths.creatDevice, component: CreateDevicePage },
     ],
   },
   {

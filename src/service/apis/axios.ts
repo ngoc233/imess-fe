@@ -19,12 +19,12 @@ axiosInstance.interceptors.request.use(
   },
   (error: any) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 axiosInstance.interceptors.response.use(
   (res) => {
-    return res;
+    return res.data;
   },
   async (err) => {
     const originalConfig = err.config;
@@ -36,10 +36,7 @@ axiosInstance.interceptors.response.use(
         if (_refreshToken) {
           try {
             const rs = await refreshToken(accessToken, _refreshToken);
-            const {
-              accessToken: newAccessToken,
-              refreshToken: newRefreshToken,
-            } = rs.data;
+            const { accessToken: newAccessToken, refreshToken: newRefreshToken } = rs.data;
             localStorage.setItem("accessToken", newAccessToken);
             localStorage.setItem("refreshToken", newRefreshToken);
             originalConfig.headers["Authorization"] = `Bearer ${accessToken}`;
@@ -68,60 +65,37 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(err);
     }
     return Promise.reject(err);
-  }
+  },
 );
-export const getAPI: (
+export const getAPI: (url: string, headers?: AxiosRequestHeaders | undefined, params?: any) => Promise<any> = (
   url: string,
   headers?: AxiosRequestHeaders | undefined,
-  params?: any
-) => Promise<any> = (
-  url: string,
-  headers?: AxiosRequestHeaders | undefined,
-  params?: any
+  params?: any,
 ) => {
   return axiosInstance.get(url, {
     headers,
     params,
   });
 };
-export const postAPI = (
-  url: string,
-  data?: any,
-  headers?: AxiosRequestHeaders | undefined,
-  params?: any
-) => {
+export const postAPI = (url: string, data?: any, headers?: AxiosRequestHeaders | undefined, params?: any) => {
   return axiosInstance.post(url, data, {
     headers,
     params,
   });
 };
-export const putAPI = (
-  url: string,
-  data?: any,
-  headers?: AxiosRequestHeaders | undefined,
-  params?: any
-) => {
+export const putAPI = (url: string, data?: any, headers?: AxiosRequestHeaders | undefined, params?: any) => {
   return axiosInstance.put(url, data, {
     headers,
     params,
   });
 };
-export const patchAPI = (
-  url: string,
-  data?: any,
-  headers?: AxiosRequestHeaders | undefined,
-  params?: any
-) => {
+export const patchAPI = (url: string, data?: any, headers?: AxiosRequestHeaders | undefined, params?: any) => {
   return axiosInstance.patch(url, data, {
     headers,
     params,
   });
 };
-export const deleteAPI = (
-  url: string,
-  headers?: AxiosRequestHeaders | undefined,
-  params?: any
-) => {
+export const deleteAPI = (url: string, headers?: AxiosRequestHeaders | undefined, params?: any) => {
   return axiosInstance.delete(url, {
     headers,
     params,

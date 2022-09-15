@@ -77,3 +77,16 @@
   justify-content: space-between;
   flex-wrap: nowrap;
 }
+.label {
+  width: 100%;
+  text-align: start;
+  padding-left: 10px;
+}
+.blocked {
+  color: #ff0000;
+  cursor: pointer;
+}
+.active {
+  color: #7fff00;
+  cursor: pointer;
+}

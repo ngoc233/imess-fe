@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAPI, patchAPI, postAPI } from "../apis/axios";
+import { deleteAPI, getAPI, patchAPI, postAPI, putAPI } from "../apis/axios";
 import { toast } from "react-toastify";
 
-interface CreateDeviceDto {
+export interface CreateDeviceDto {
   name: string;
   url: string;
   username: string;
@@ -13,9 +13,9 @@ interface CreateDeviceDto {
 interface InitialState {
   loading: boolean;
   error: any[];
-  devices: CreateDeviceDto[];
-  device: Partial<CreateDeviceDto>;
-  blockAccount: Partial<CreateDeviceDto>;
+  devices: Partial<CreateDeviceDto & { id: string }>[];
+  device: Partial<CreateDeviceDto & { id: string }>;
+  blockAccount: Partial<CreateDeviceDto & { id: string }>;
 }
 
 const initialState: InitialState = {
@@ -60,7 +60,7 @@ export const getDevice = createAsyncThunk("getDevice", async (id: string) => {
 });
 export const updateDevice = createAsyncThunk("updateDevice", async (params: { id: string; body: CreateDeviceDto }) => {
   try {
-    const res = await postAPI(`/device/update/${params.id}`, params.body);
+    const res = await putAPI(`/device/update/${params.id}`, params.body);
     return res.data;
   } catch (err) {
     throw err;
@@ -76,8 +76,8 @@ export const blockOrUnblock = createAsyncThunk("unBlock", async (params: { id: s
 });
 export const deleteDevice = createAsyncThunk("deleteDevice", async (id: string) => {
   try {
-    const res = await patchAPI(`/device/remove/${id}`);
-    return res.data;
+    await deleteAPI(`/device/remove/${id}`);
+    return id;
   } catch (err) {
     throw err;
   }
@@ -85,13 +85,7 @@ export const deleteDevice = createAsyncThunk("deleteDevice", async (id: string) 
 
 const deviceSlice = createSlice({
   name: "device",
-  initialState: {
-    loading: false,
-    error: [],
-    devices: [],
-    device: {},
-    blockAccount: {},
-  },
+  initialState,
   reducers: {},
   extraReducers: {
     // get check blocked icloud
@@ -100,6 +94,7 @@ const deviceSlice = createSlice({
     },
     [`${checkBlockedIcloud.fulfilled}`]: (state, action) => {
       state.loading = false;
+      state.blockAccount = action.payload;
     },
     [`${checkBlockedIcloud.rejected}`]: (state, action) => {
       state.loading = false;
@@ -113,6 +108,10 @@ const deviceSlice = createSlice({
       state.loading = false;
       state.devices = action.payload;
     },
+    [`${getDevices.rejected}`]: (state, action) => {
+      state.loading = false;
+      state.error.push(action.payload);
+    },
     // get device
     [`${getDevice.pending}`]: (state) => {
       state.loading = true;
@@ -121,15 +120,23 @@ const deviceSlice = createSlice({
       state.loading = false;
       state.device = action.payload;
     },
+    [`${getDevice.rejected}`]: (state, action) => {
+      state.loading = false;
+      state.error.push(action.payload);
+    },
     // create Device
     [`${createDevice.pending}`]: (state) => {
       state.loading = true;
     },
     [`${createDevice.fulfilled}`]: (state, action) => {
       state.loading = false;
+      toast.success("tạo device thành công");
+      state.devices.push(action.payload);
     },
     [`${createDevice.rejected}`]: (state, action) => {
       state.loading = false;
+      toast.error("tạo device thất bại");
+      state.error.push(action.payload);
     },
     // update Device
     [`${updateDevice.pending}`]: (state, action) => {
@@ -137,28 +144,49 @@ const deviceSlice = createSlice({
     },
     [`${updateDevice.fulfilled}`]: (state, action) => {
       state.loading = false;
+      toast.success("cập nhật device thành công");
+      const item = state.devices.find((d) => d.id === action.payload.id);
+      const index = item && state.devices.indexOf(item);
+      if (typeof index === "number") {
+        state.devices[index] = action.payload;
+      }
     },
     [`${updateDevice.rejected}`]: (state, action) => {
       state.loading = false;
+      toast.error("cập nhật device thất bại");
+      state.error.push(action.payload);
     },
     //block or unblock device
-    [`${blockOrUnblock.pending}`]: (state, action) => {
-      state.loading = false;
+    [`${blockOrUnblock.pending}`]: (state) => {
+      state.loading = true;
     },
     [`${blockOrUnblock.fulfilled}`]: (state, action) => {
+      toast.success(`cập nhật trạng thái ${action.payload.name} thành công`);
+      const item = state.devices.find((d) => d.id === action.payload.id);
+      const index = item && state.devices.indexOf(item);
+      if (typeof index === "number") {
+        state.devices[index] = action.payload;
+      }
       state.loading = false;
     },
     [`${blockOrUnblock.rejected}`]: (state, action) => {
       state.loading = false;
+      toast.error("cập nhật trạng thái thất bại");
+      state.error.push(action.payload);
     },
     //deleteDevice
-    [`${deleteDevice.pending}`]: (state, action) => {
-      state.loading = false;
+    [`${deleteDevice.pending}`]: (state) => {
+      state.loading = true;
     },
     [`${deleteDevice.fulfilled}`]: (state, action) => {
+      toast.success("Xóa device thành công");
+      const item = state.devices.find((d) => d.id === action.payload);
+      const index = item && state.devices.indexOf(item);
+      index && state.devices.splice(index, 1);
       state.loading = false;
     },
-    [`${deleteDevice.rejected}`]: (state, action) => {
+    [`${deleteDevice.rejected}`]: (state) => {
+      toast.success("Xóa device thất bại");
       state.loading = false;
     },
   },

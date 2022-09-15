@@ -32,7 +32,7 @@ const imessSlice = createSlice({
     },
     [`${imessUploadData.rejected}`]: (state, action) => {
       state.loading = false;
-      toast.error("Tải lên imess thất bại");
+      toast.success("Tải lên imess thất bại");
       state.error = action.error;
     },
     [`${imessUploadData.fulfilled}`]: (state, action) => {
