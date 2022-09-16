@@ -29,6 +29,10 @@ const typeFile = [
   .map((x) => `.${x}`)
   .join(",");
 
+interface ImessFile {
+  phonenumber: string;
+  message: string;
+}
 const ExcelReader = () => {
   const loading = useAppSelector((state: RootState) => state.imess.loading);
   const dispatch = useAppDispatch();
@@ -38,7 +42,7 @@ const ExcelReader = () => {
     key: [],
   });
 
-  const [dataConvert, setDataConvert] = useState<ImessUploadDataDto[]>([]);
+  const [dataConvert, setDataConvert] = useState<ImessFile[]>([]);
   const [checkFileName, setCheckFileName] = useState(false);
   const [showData, setShowDate] = useState(false);
 
@@ -52,7 +56,7 @@ const ExcelReader = () => {
     }
   };
 
-  const handleFile = (callback?: (data: ImessUploadDataDto[]) => void) => {
+  const handleFile = (callback?: (data: ImessFile[]) => void) => {
     /* Boilerplate to set up FileReader */
     const reader = new FileReader();
     const rABS = !!reader.readAsBinaryString;
@@ -68,7 +72,7 @@ const ExcelReader = () => {
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       /* Convert array of arrays */
-      const data: ImessUploadDataDto[] = utils.sheet_to_json(ws, { defval: "" });
+      const data: ImessFile[] = utils.sheet_to_json(ws, { defval: "" });
       /* Update state */
       setState({
         ...state,
@@ -93,7 +97,7 @@ const ExcelReader = () => {
           imessUploadData({
             filename: state.file.name,
             data: data.map((i: { phonenumber: string; message: string }) => ({
-              phonenumber: i.phonenumber,
+              receiver: i.phonenumber,
               message: i.message,
             })),
           }),
@@ -104,7 +108,7 @@ const ExcelReader = () => {
         imessUploadData({
           filename: state.file.name,
           data: dataConvert.map((i: { phonenumber: string; message: string }) => ({
-            phonenumber: i.phonenumber,
+            receiver: i.phonenumber,
             message: i.message,
           })),
         }),

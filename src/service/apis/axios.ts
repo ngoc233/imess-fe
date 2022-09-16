@@ -67,37 +67,21 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(err);
   },
 );
-export const getAPI: (url: string, headers?: AxiosRequestHeaders | undefined, params?: any) => Promise<any> = (
+export const getAPI: (url: string, config?: AxiosRequestConfig) => Promise<any> = (
   url: string,
-  headers?: AxiosRequestHeaders | undefined,
-  params?: any,
+  config?: AxiosRequestConfig,
 ) => {
-  return axiosInstance.get(url, {
-    headers,
-    params,
-  });
+  return axiosInstance.get(url, config);
 };
-export const postAPI = (url: string, data?: any, headers?: AxiosRequestHeaders | undefined, params?: any) => {
-  return axiosInstance.post(url, data, {
-    headers,
-    params,
-  });
+export const postAPI = (url: string, data?: any, config?: AxiosRequestConfig) => {
+  return axiosInstance.post(url, data, config);
 };
-export const putAPI = (url: string, data?: any, headers?: AxiosRequestHeaders | undefined, params?: any) => {
-  return axiosInstance.put(url, data, {
-    headers,
-    params,
-  });
+export const putAPI = (url: string, data?: any, config?: AxiosRequestConfig) => {
+  return axiosInstance.put(url, data, config);
 };
-export const patchAPI = (url: string, data?: any, headers?: AxiosRequestHeaders | undefined, params?: any) => {
-  return axiosInstance.patch(url, data, {
-    headers,
-    params,
-  });
+export const patchAPI = (url: string, data?: any, config?: AxiosRequestConfig) => {
+  return axiosInstance.patch(url, data, config);
 };
-export const deleteAPI = (url: string, headers?: AxiosRequestHeaders | undefined, params?: any) => {
-  return axiosInstance.delete(url, {
-    headers,
-    params,
-  });
+export const deleteAPI = (url: string, config?: AxiosRequestConfig) => {
+  return axiosInstance.delete(url, config);
 };
