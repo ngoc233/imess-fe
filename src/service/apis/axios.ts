@@ -49,7 +49,7 @@ axiosInstance.interceptors.response.use(
             if (localStorage.getItem("role")) {
               localStorage.removeItem("role");
             }
-            history.replace("/auth/login");
+            history.replace("/login");
             return Promise.reject(_error);
           }
         } else {
@@ -59,7 +59,7 @@ axiosInstance.interceptors.response.use(
           if (localStorage.getItem("role")) {
             localStorage.removeItem("role");
           }
-          history.replace("/auth/login");
+          history.replace("/login");
         }
       }
       return Promise.reject(err);

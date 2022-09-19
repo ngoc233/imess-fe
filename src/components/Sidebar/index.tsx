@@ -44,8 +44,12 @@ const submenus = [
       target: routerPaths.imess,
     },
     {
-      title: "device",
+      title: "Device",
       target: routerPaths.device,
+    },
+    {
+      title: "Send Script",
+      target: routerPaths.sendScript,
     },
   ],
 ];

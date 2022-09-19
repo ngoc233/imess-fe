@@ -3,11 +3,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import authReducer from "./auth.reducer";
 import deviceReducer from "./device.reducer";
 import imessReducer from "./imess.reducer";
+import sendScriptReducer from "./sendScript";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     imess: imessReducer,
     device: deviceReducer,
+    sendScript: sendScriptReducer,
   },
 });
 

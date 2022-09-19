@@ -43,13 +43,8 @@ function GSMSent() {
   const devices = useAppSelector((state: RootState) => state.device.devices);
   const [page, setPage] = useState<number>(1);
   const [showDetail, setShowDetail] = useState<any>(null);
-  const [dataExport, setDataExport] = useState({
-    last_page: 0,
-    result: [],
-    total: 0,
-  });
   const [form, setForm] = useState<ISearch>({
-    size: 32,
+    size: 30,
     //@ts-ignore
     from: new Date(moment(new Date()).hour(0).minute(0).second(0)._d.getTime() - 30 * 86400000),
     //@ts-ignore
@@ -64,9 +59,9 @@ function GSMSent() {
 
   const columns: any = [
     {
-      title: <div className="title small">ID Device</div>,
-      dataIndex: "deviceId",
-      render: (deviceId: number) => <div className="item-table">{deviceId}</div>,
+      title: <div className="title small">STT</div>,
+      dataIndex: "id",
+      render: (_ : any,__: any, index: number ) => <div className="item-table">{(page - 1) * form.size + index + 1}</div>,
       sorter: (a: any, b: any) => a.deviceId - b.deviceId,
     },
     {
@@ -85,6 +80,11 @@ function GSMSent() {
       title: <div className="title large mxx-large  ant-table-column-title">Nội dung</div>,
       dataIndex: "message",
       render: (message: string) => <div className="item-table content ellipsis">{message}</div>,
+    },
+    {
+      title: <div className="x-small ant-table-column-title">Ưu tiên</div>,
+      dataIndex: "priority",
+      render: (priority: string) => <div className="item-table">{priority || "-"}</div>,
     },
     {
       title: <div className="title x-small">Thời gian</div>,

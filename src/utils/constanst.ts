@@ -4,4 +4,5 @@ export const routerPaths = {
   device: "device",
   creatDevice: "create-device",
   imess: "imess",
+  sendScript: "send-script",
 };
