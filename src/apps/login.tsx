@@ -27,7 +27,7 @@ function Login() {
   };
 
   return isAuth ? (
-    <Navigate to={routerPaths.home} />
+    <Navigate to={`/${routerPaths.home}`} />
   ) : (
     <div className="d-flex justify-content-center align-items-center p-2">
       <Form
